@@ -7,4 +7,4 @@ Me forreal - Berber
 
 uploaded the fonts --> .zip file 
 
-@junjie pa ulpaod ind po ng logo
+@junjie pa upload din po ng Logo thnxx
