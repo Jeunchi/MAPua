@@ -138,7 +138,7 @@
           deleteButton.textContent = 'X';
           deleteButton.onclick = function() {
             bookmarkItem.remove();
-            saveBookmarks(); // Save updated bookmarks to localStorage
+            saveBookmarks(); 
           };
 
           bookmarkItem.appendChild(deleteButton);
@@ -153,13 +153,13 @@
           var initialLocation = event.target.getAttribute('data-initial');
           var desiredLocation = event.target.getAttribute('data-desired');
 
-          window.location.href = `'Main Page.html?initial=${initialLocation}&desired=${desiredLocation}`;
+          window.location.href = `Main Page.html?initial=${initialLocation}&desired=${desiredLocation}`;
         }
       }
     }
 
     function addButForMain() {
-      window.location.href = 'Main Page.html'';
+      window.location.href = 'Main Page.html';
     }
   </script>
 
