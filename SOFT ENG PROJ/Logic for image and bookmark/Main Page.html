@@ -47,7 +47,7 @@
     <img id="displayedImage" src="image/lobby.jpg" alt="Lobby Image">
   </div>
   
-  <button onclick="addMoreLocations()">Book Mark</button>
+  <button onclick="addButtonForBM()">Book Mark</button>
 
 <script>
   function setInitialDesiredLocationsFromURL() {
@@ -82,7 +82,7 @@
     return locationImages[desiredLocation] || locationImages[initialLocation] || "image/lobby.jpg";
   }
   
-      function addMoreLocations() {
+      function addButtonForBM() {
       window.location.href = 'ConBookMark.html';
     }
 
