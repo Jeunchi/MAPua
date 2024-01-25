@@ -12,11 +12,28 @@
   font-family: sans-serif;
 }
 
+body{
+  width: 360px;
+  height: 800px;
+}
+
 .bg-gradient{
   height: 755px;
-  width: 364px;
+  width: 360px;
   flex-shrink: 0;
   background-image: linear-gradient(180deg, #B30000 0%, rgba(179, 0, 0, 0.00) 100%);
+}
+
+.title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 57px;
+}
+
+.title img{
+  width: 60px;
+  height: 49px;
 }
 
 h1{
@@ -27,7 +44,6 @@ h1{
   font-style: italic;
   font-weight: 800;
   line-height: normal;
-  padding-top: 57px;
 }
 
 .container{
@@ -51,11 +67,12 @@ h1{
 nav{
   background: #D9D9D9;
   border-radius: 20px;
-  width: 236px;
+  width: 210px;
   height: 34px;
   flex-shrink: 0;
   padding-right: 15px;
 }
+
 nav label{
   color: #FFF;
   text-align: center;
@@ -67,15 +84,18 @@ nav label{
   display: block;
   cursor: pointer;
 }
+
 .current i{
   float: right;
   line-height: 35px;
 }
+
 .to i{
   float: right;
   line-height: 35px;
 }
-button{
+
+.Buttons button{
   color: #FFF;
   font-family: "SF Pro Display";
   font-size: 15px;
@@ -89,4 +109,23 @@ button{
   border: none;
   border-radius: 15px;
   background-image: linear-gradient(180deg, #B30000 0%, rgba(179, 0, 0, 0.50) 84%);
+}
+
+.groupFROM{
+  display: flex;
+}
+.groupTO{
+  display: flex;
+}
+.circle{
+  position: absolute;
+  bottom: 0px;
+  background-color: #fff;
+  height: 180px;
+  width: 357px;
+  border-top-left-radius: 357px;
+  border-top-right-radius: 357px;
+}
+.content{
+  position: absolute;
 }
