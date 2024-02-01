@@ -7,6 +7,7 @@
         <title>MAPúa</title>
         <link rel="shortcut icon" type="image/png" href="assets/MAPúa-logo.png">
 		<link rel="stylesheet" type="text/css" href="assets\design.css">
+		
 
     </head>
     <body>
@@ -24,29 +25,22 @@
 	dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
 	</p>
 	</div>
-	<div class="dropup">
-	  <button class="dropbtn">Current Location</button>
-	  <div class="dropup-content">
-		<ul>
-		  	<li>Link 1</li>
-		  	<li>Link 2</li>
-			<li>Link 3</li>
-		</ul>
-	  </div>
-	</div>
-	<div class="dropup">
-	  <button class="dropbtn">Where to?</button>
-	  <div class="dropup-content">
-		<ul>
-		  	<li>Link 1</li>
-		  	<li>Link 2</li>
-			<li>Link 3</li>
-		</ul>
-	  </div>
-	<a href="#">Go</a>
-	</div>
 	
 
-        
+
+
+	<img src="Assets/map.png" alt="map">
+
+	<hr>
+
+	<input type="number" id="initial" placeholder="Initial">
+	<input type="number" id="final" placeholder="Final">
+	<button onclick="findShortestPath()">GO!</button>
+
+	
+
+	<script src="scripts/map.js"></script>
+
+
     </body>
 </html>
