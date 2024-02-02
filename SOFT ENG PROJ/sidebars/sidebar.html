@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      height: 100vh;
+      transition: transform 0.3s ease;
+      transform: translateX(-250px);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #555;
+      color: white;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar button:hover {
+      background-color: #777;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar h2 img {
+      margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        transform: translateX(0);
+      }
+    }
+
+    #toggleButton {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>
+        <img src="image/MAPúa-logo.png" alt="Logo" width="50" height="50">MAPua
+      </h2>
+      <button id="timeButton">Time</button>
+      <button id="bookmarkButton">Bookmark</button>
+    </div>
+
+    <div class="content">
+      <center><h2>MAPua</h2>
+    </div>
+  </div>
+
+  <button id="toggleButton">Press Me</button>
+
+  <script>
+    document.getElementById('timeButton').addEventListener('click', function() {
+      window.location.href = 'time.html';
+    });
+
+    document.getElementById('bookmarkButton').addEventListener('click', function() {
+      window.location.href = 'bookmark.html';
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.querySelector('.sidebar');
+      document.getElementById('toggleButton').addEventListener('click', function() {
+        sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-250px)' : 'translateX(0px)';
+      });
+    });
+  </script>
+
+</body>
+</html>
