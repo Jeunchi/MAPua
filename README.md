@@ -17,11 +17,6 @@ A modern, interactive campus navigation web application designed for MAPúa Univ
 - Automatic image updates based on selected locations
 - Clear path visualization with animated routes
 
-### 📸 **Location Image Display**
-- Dynamic image loading for different campus areas
-- Support for lobby, canteen, and library views
-- Seamless integration with route planning
-- High-quality location photography
 
 ### 🔖 **Advanced Bookmark System**
 - Save frequently used routes with custom names
@@ -270,12 +265,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - The open-source community for inspiration and resources
 - Beta testers who provided valuable feedback
 
-## 📞 **Support & Contact**
-
-- **GitHub Issues**: [Report bugs and request features](https://github.com/your-username/mapua-navigation/issues)
-- **Email**: your.email@example.com
-- **Documentation**: [Wiki pages](https://github.com/your-username/mapua-navigation/wiki)
-
 ## 🗺️ **Roadmap**
 
 ### Version 2.0 (Planned)
@@ -297,4 +286,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 **Made with ❤️ for MAPúa University**
 
-*Last updated: [Current Date]*
+*Last updated: 8/19/2025*
