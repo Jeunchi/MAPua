@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>MAPúa Navigation System</title>
-    <link rel="shortcut icon" type="image/png" href="assets/MAPúa-logo.png">
+    <title>MAPua Navigation System</title>
+    <link rel="shortcut icon" type="image/png" href="assets/MAPÃºa-logo.png">
     <link rel="stylesheet" href="main-style.css">
 </head>
 <body>
@@ -17,12 +17,12 @@
                 <div class="logo">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
-                <h1 class="title">MAPúa Navigation</h1>
+                <h1 class="title">MAPua Navigation</h1>
                 <div class="nav-links">
-                    <a href="#bookmarks" onclick="scrollToSection('bookmark-section')">
+                    <a href="bookmark-page.html" onclick="openBookmarkPage()">
                         <i class="fas fa-bookmark"></i> Bookmarks
                     </a>
-                    <a href="#" onclick="showCurrentTime()">
+                    <a href="time-page.html" onclick="showCurrentTime()">
                         <i class="fas fa-clock"></i> Time
                     </a>
                 </div>
@@ -33,7 +33,7 @@
             <!-- Description -->
             <div class="description">
                 <p>
-                    Welcome to the MAPúa Navigation System. This integrated platform allows you to find the shortest path between locations, 
+                    Welcome to the MAPÃºa Navigation System. This integrated platform allows you to find the shortest path between locations, 
                     view location images, and manage your bookmarked routes. Select your starting and destination points to get detailed 
                     directions and visual guidance throughout the campus.
                 </p>
@@ -188,6 +188,10 @@
                     <button class="btn btn-success" onclick="bookmarkCurrentRoute()">
                         <i class="fas fa-plus"></i>
                         <span>Bookmark Current Route</span>
+                    </button>
+                    <button class="btn btn-info" onclick="openBookmarkPage()">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Manage Bookmarks</span>
                     </button>
                     <button class="btn btn-secondary" onclick="clearAllBookmarks()">
                         <i class="fas fa-trash"></i>

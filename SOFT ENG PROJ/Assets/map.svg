@@ -1,0 +1,199 @@
+<svg viewBox="0 0 1445 719" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for modern look -->
+    <linearGradient id="campusBackground" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f1f3f4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dee2e6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ced4da;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B30000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Filters for effects -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feMorphology operator="dilate" radius="2"/>
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1445" height="719" fill="url(#campusBackground)"/>
+  
+  <!-- Grid pattern for modern look -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e9ecef" stroke-width="0.5" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1445" height="719" fill="url(#grid)"/>
+  
+  <!-- Main walkways -->
+  <path d="M 150 56 L 1340 56" stroke="url(#pathGradient)" stroke-width="30" fill="none" opacity="0.8"/>
+  <path d="M 150 669 L 1340 669" stroke="url(#pathGradient)" stroke-width="30" fill="none" opacity="0.8"/>
+  <path d="M 150 56 L 150 669" stroke="url(#pathGradient)" stroke-width="25" fill="none" opacity="0.8"/>
+  
+  <!-- Building Complex 1 (Top Row) -->
+  <g id="topBuildings">
+    <!-- Room 1 & 2 Building -->
+    <rect x="254" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="279" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R1</text>
+    <text x="279" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R2</text>
+    
+    <!-- Room 3 & 4 Building -->
+    <rect x="381" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="406" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R3</text>
+    <text x="406" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R4</text>
+    
+    <!-- Room 5 & 6 Building -->
+    <rect x="525" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="550" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R5</text>
+    <text x="550" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R6</text>
+    
+    <!-- Room 7 & 8 Building -->
+    <rect x="640" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="665" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R7</text>
+    <text x="665" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R8</text>
+    
+    <!-- Room 9 & 10 Building -->
+    <rect x="775" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="800" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R9</text>
+    <text x="800" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R10</text>
+    
+    <!-- Room 11 & 12 Building -->
+    <rect x="912" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="937" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R11</text>
+    <text x="937" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R12</text>
+    
+    <!-- Room 13 & 14 Building -->
+    <rect x="1040" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="1065" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R13</text>
+    <text x="1065" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R14</text>
+    
+    <!-- Room 15 & 16 Building -->
+    <rect x="1175" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="1200" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R15</text>
+    <text x="1200" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R16</text>
+    
+    <!-- Room 17 & 18 Building -->
+    <rect x="1315" y="18" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="1340" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R17</text>
+    <text x="1340" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R18</text>
+  </g>
+  
+  <!-- Building Complex 2 (Bottom Row) -->
+  <g id="bottomBuildings">
+    <!-- Room 19 Building -->
+    <rect x="254" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <text x="279" y="680" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#B30000">R19</text>
+    
+    <!-- Other bottom buildings -->
+    <rect x="381" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="525" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="640" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="775" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="912" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="1040" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="1175" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+    <rect x="1315" y="629" width="50" height="77" fill="url(#buildingGradient)" stroke="#B30000" stroke-width="2" rx="8" filter="url(#shadow)"/>
+  </g>
+  
+  <!-- Central Courtyard/Plaza -->
+  <ellipse cx="722" cy="362" rx="200" ry="120" fill="#e8f5e8" stroke="#4CAF50" stroke-width="3" opacity="0.7" rx="12"/>
+  <text x="722" y="370" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#2E7D32">CENTRAL PLAZA</text>
+  
+  <!-- Special Buildings -->
+  <!-- Elevator -->
+  <rect x="125" y="31" width="50" height="50" fill="url(#redAccent)" stroke="#8B0000" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="150" y="48" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">ELEV</text>
+  <text x="150" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">ATOR</text>
+  
+  <!-- Fire Exit Elevator -->
+  <rect x="125" y="310" width="50" height="50" fill="#FF6B35" stroke="#E55039" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="150" y="327" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">FIRE</text>
+  <text x="150" y="337" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">EXIT</text>
+  <text x="150" y="347" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">ELEV</text>
+  
+  <!-- Canteen -->
+  <rect x="125" y="644" width="50" height="50" fill="#4ECDC4" stroke="#26D0CE" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="150" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">CANT</text>
+  <text x="150" y="672" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">EEN</text>
+  
+  <!-- Clinic -->
+  <rect x="254" y="644" width="50" height="50" fill="#FF6B6B" stroke="#EE5A52" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="279" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">CLIN</text>
+  <text x="279" y="672" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">IC</text>
+  
+  <!-- Student Lounge 2 -->
+  <rect x="381" y="644" width="50" height="50" fill="#4ECDC4" stroke="#26D0CE" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="406" y="655" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">STUD</text>
+  <text x="406" y="665" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">LOUNGE</text>
+  <text x="406" y="675" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">2</text>
+  
+  <!-- Bookstore -->
+  <rect x="525" y="644" width="50" height="50" fill="#A8E6CF" stroke="#88D8A3" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="550" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">BOOK</text>
+  <text x="550" y="672" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="white">STORE</text>
+  
+  <!-- Fire Exit 2 -->
+  <rect x="1315" y="644" width="50" height="50" fill="#FF6B35" stroke="#E55039" stroke-width="2" rx="12" filter="url(#glow)"/>
+  <text x="1340" y="655" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">FIRE</text>
+  <text x="1340" y="665" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">EXIT</text>
+  <text x="1340" y="675" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="white">2</text>
+  
+  <!-- Navigation Points (Invisible but important for pathfinding) -->
+  <circle cx="150" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="279" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="406" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="550" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="665" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="800" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="937" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1065" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1200" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1340" cy="56" r="3" fill="#B30000" opacity="0.6"/>
+  
+  <circle cx="150" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="279" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="406" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="550" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="665" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="800" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="937" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1065" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1200" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  <circle cx="1340" cy="669" r="3" fill="#B30000" opacity="0.6"/>
+  
+  <!-- Campus name -->
+  <text x="722" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="800" fill="url(#redAccent)">MAPúa UNIVERSITY</text>
+  <text x="722" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#6c757d">Navigation System</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="20" fill="#e9ecef" opacity="0.5"/>
+  <circle cx="1350" cy="100" r="25" fill="#e9ecef" opacity="0.4"/>
+  <circle cx="100" cy="600" r="18" fill="#e9ecef" opacity="0.6"/>
+  <circle cx="1350" cy="600" r="22" fill="#e9ecef" opacity="0.3"/>
+</svg>

@@ -1,17 +1,149 @@
+// Cookie utility functions
+class CookieManager {
+  static setCookie(name, value, days = 30) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
+  }
+  
+  static getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) {
+        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+    }
+    return null;
+  }
+  
+  static deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+  }
+}
+
+// Shared Bookmark Storage System using Cookies
+class SharedBookmarkStorage {
+  static getBookmarks() {
+    const saved = CookieManager.getCookie('mapua_bookmarks');
+    if (saved) {
+      try {
+        const bookmarks = JSON.parse(saved);
+        console.log('Loaded bookmarks from cookie:', bookmarks);
+        return bookmarks;
+      } catch (e) {
+        console.error('Error parsing bookmarks from cookie:', e);
+        return [];
+      }
+    }
+    return [];
+  }
+  
+  static saveBookmarks(bookmarks) {
+    console.log('Saving bookmarks to cookie:', bookmarks);
+    CookieManager.setCookie('mapua_bookmarks', JSON.stringify(bookmarks), 365); // Save for 1 year
+    
+    // Also update in-memory storage for immediate updates
+    window.sharedBookmarks = bookmarks;
+    
+    // Dispatch custom event to notify other pages
+    window.dispatchEvent(new CustomEvent('bookmarksUpdated', { 
+      detail: bookmarks 
+    }));
+  }
+  
+  static addBookmark(bookmark) {
+    const bookmarks = this.getBookmarks();
+    // Check for duplicates
+    const exists = bookmarks.find(b => b.from === bookmark.from && b.to === bookmark.to);
+    if (exists) {
+      return false; // Already exists
+    }
+    bookmarks.push(bookmark);
+    this.saveBookmarks(bookmarks);
+    return true;
+  }
+  
+  static deleteBookmark(id) {
+    const bookmarks = this.getBookmarks().filter(bookmark => bookmark.id !== id);
+    this.saveBookmarks(bookmarks);
+  }
+  
+  static clearAllBookmarks() {
+    this.saveBookmarks([]);
+  }
+}
+
 // Global variables
 let bookmarkedRoutes = [];
 let currentPath = null;
 
 // Initialize on page load
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Main page DOM loaded');
     loadBookmarks();
     initializeCanvas();
+    checkForSelectedRoute();
+    
+    // Set up form submission
+    const bookmarkForm = document.getElementById('bookmarkForm');
+    if (bookmarkForm) {
+        bookmarkForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveBookmark();
+        });
+    }
 });
+
+// Check if user navigated from bookmark page with a selected route
+function checkForSelectedRoute() {
+    const selectedRoute = sessionStorage.getItem('selectedRoute');
+    if (selectedRoute) {
+        try {
+            const route = JSON.parse(selectedRoute);
+            console.log('Found selected route from bookmark page:', route);
+            
+            const initialSelect = document.getElementById('initial');
+            const finalSelect = document.getElementById('final');
+            
+            if (initialSelect && finalSelect) {
+                initialSelect.value = route.from;
+                finalSelect.value = route.to;
+                
+                // Clear the session storage
+                sessionStorage.removeItem('selectedRoute');
+                
+                // Auto-calculate the route
+                setTimeout(() => {
+                    findShortestPath();
+                    // Scroll to route section
+                    const routeSection = document.getElementById('route-section');
+                    if (routeSection) {
+                        routeSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            }
+        } catch (e) {
+            console.error('Error parsing selected route:', e);
+            sessionStorage.removeItem('selectedRoute');
+        }
+    }
+}
 
 // Pathfinding functions
 function findShortestPath() {
-    var initial = document.getElementById('initial').value;
-    var final = document.getElementById('final').value;
+    const initialSelect = document.getElementById('initial');
+    const finalSelect = document.getElementById('final');
+    
+    if (!initialSelect || !finalSelect) {
+        showNotification('Route selection elements not found.', 'error');
+        return;
+    }
+    
+    const initial = initialSelect.value;
+    const final = finalSelect.value;
     
     if (!initial || !final) {
         showNotification('Please select both starting point and destination.', 'warning');
@@ -38,23 +170,29 @@ function findShortestPath() {
 
 function clearPath() {
     // Clear the canvas and reset selections
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    initializeCanvas();
+    const canvas = document.getElementById('canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        initializeCanvas();
+    }
     
     currentPath = null;
     
     // Reset form selections
-    document.getElementById('initial').value = '';
-    document.getElementById('final').value = '';
+    const initialSelect = document.getElementById('initial');
+    const finalSelect = document.getElementById('final');
+    if (initialSelect) initialSelect.value = '';
+    if (finalSelect) finalSelect.value = '';
     
     showNotification('Path cleared', 'info');
 }
 
 function initializeCanvas() {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('canvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
     
     // Placeholder for map initialization
     ctx.fillStyle = '#f8f9fa';
@@ -101,11 +239,13 @@ function initializeCanvas() {
 
 function drawPath(from, to) {
     // Placeholder function to draw path between locations
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('canvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
     
     // This would be replaced with actual coordinates from your map data
-    var locations = {
+    const locations = {
         'canteen': {x: 730, y: 250},
         'library': {x: 490, y: 210},
         'lobby area': {x: 200, y: 175},
@@ -113,8 +253,8 @@ function drawPath(from, to) {
         'clinic': {x: 310, y: 420}
     };
     
-    var startPoint = locations[from] || {x: 100, y: 100};
-    var endPoint = locations[to] || {x: 800, y: 500};
+    const startPoint = locations[from] || {x: 100, y: 100};
+    const endPoint = locations[to] || {x: 800, y: 500};
     
     // Draw path
     ctx.strokeStyle = '#B30000';
@@ -146,45 +286,73 @@ function bookmarkCurrentRoute() {
     }
     
     // Pre-fill the modal form
-    document.getElementById('routeFrom').value = currentPath.from;
-    document.getElementById('routeTo').value = currentPath.to;
-    document.getElementById('routeName').value = currentPath.from + ' to ' + currentPath.to;
+    const routeFromInput = document.getElementById('routeFrom');
+    const routeToInput = document.getElementById('routeTo');
+    const routeNameInput = document.getElementById('routeName');
+    const modal = document.getElementById('bookmarkModal');
+    
+    if (routeFromInput) routeFromInput.value = currentPath.from;
+    if (routeToInput) routeToInput.value = currentPath.to;
+    if (routeNameInput) routeNameInput.value = currentPath.from + ' to ' + currentPath.to;
     
     // Show modal
-    document.getElementById('bookmarkModal').style.display = 'block';
-    document.getElementById('routeName').focus();
+    if (modal) {
+        modal.style.display = 'block';
+        if (routeNameInput) routeNameInput.focus();
+    }
 }
 
 function closeBookmarkModal() {
-    document.getElementById('bookmarkModal').style.display = 'none';
-    document.getElementById('bookmarkForm').reset();
+    const modal = document.getElementById('bookmarkModal');
+    const form = document.getElementById('bookmarkForm');
+    
+    if (modal) modal.style.display = 'none';
+    if (form) form.reset();
 }
 
 function saveBookmark() {
-    var routeName = document.getElementById('routeName').value.trim();
+    const routeNameInput = document.getElementById('routeName');
+    if (!routeNameInput) return;
+    
+    const routeName = routeNameInput.value.trim();
     
     if (!routeName) {
         showNotification('Please enter a route name.', 'warning');
         return;
     }
     
-    var bookmark = {
+    if (!currentPath) {
+        showNotification('No current route to bookmark.', 'error');
+        return;
+    }
+    
+    const bookmark = {
         id: Date.now(),
         name: routeName,
         from: currentPath.from,
         to: currentPath.to,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString()
     };
     
-    bookmarkedRoutes.push(bookmark);
-    saveBookmarksToStorage();
-    displayBookmarks();
-    closeBookmarkModal();
-    showNotification('Route bookmarked successfully!', 'success');
+    // Use shared storage system
+    const success = SharedBookmarkStorage.addBookmark(bookmark);
+    
+    if (success) {
+        bookmarkedRoutes = SharedBookmarkStorage.getBookmarks();
+        displayBookmarks();
+        closeBookmarkModal();
+        showNotification('Route bookmarked successfully!', 'success');
+    } else {
+        showNotification('This route is already bookmarked!', 'warning');
+    }
 }
 
 function displayBookmarks() {
-    var bookmarkList = document.getElementById('bookmarkList');
+    const bookmarkList = document.getElementById('bookmarkList');
+    if (!bookmarkList) return;
+    
+    console.log('Displaying bookmarks, count:', bookmarkedRoutes.length);
     
     if (bookmarkedRoutes.length === 0) {
         bookmarkList.innerHTML = `
@@ -196,7 +364,7 @@ function displayBookmarks() {
         return;
     }
     
-    var html = '';
+    let html = '';
     bookmarkedRoutes.forEach(function(bookmark, index) {
         html += `
             <div class="bookmark-item">
@@ -211,10 +379,10 @@ function displayBookmarks() {
                     </div>
                 </div>
                 <div class="bookmark-actions">
-                    <button class="btn btn-primary btn-small" onclick="loadBookmarkedRoute(${index})">
+                    <button class="btn btn-primary btn-small" onclick="loadBookmarkedRoute(${bookmark.id})">
                         <i class="fas fa-route"></i> Go
                     </button>
-                    <button class="btn btn-secondary btn-small" onclick="deleteBookmark(${index})">
+                    <button class="btn btn-secondary btn-small" onclick="deleteBookmark(${bookmark.id})">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -225,22 +393,37 @@ function displayBookmarks() {
     bookmarkList.innerHTML = html;
 }
 
-function loadBookmarkedRoute(index) {
-    var bookmark = bookmarkedRoutes[index];
-    document.getElementById('initial').value = bookmark.from;
-    document.getElementById('final').value = bookmark.to;
+function loadBookmarkedRoute(bookmarkId) {
+    const bookmark = bookmarkedRoutes.find(b => b.id === bookmarkId);
+    if (!bookmark) {
+        showNotification('Bookmark not found', 'error');
+        return;
+    }
     
-    // Scroll to route section
-    document.getElementById('route-section').scrollIntoView({ behavior: 'smooth' });
+    const initialSelect = document.getElementById('initial');
+    const finalSelect = document.getElementById('final');
     
-    showNotification('Route loaded: ' + bookmark.name, 'info');
+    if (initialSelect && finalSelect) {
+        initialSelect.value = bookmark.from;
+        finalSelect.value = bookmark.to;
+        
+        // Scroll to route section
+        const routeSection = document.getElementById('route-section');
+        if (routeSection) {
+            routeSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        showNotification('Route loaded: ' + bookmark.name, 'info');
+    }
 }
 
-function deleteBookmark(index) {
-    var bookmark = bookmarkedRoutes[index];
+function deleteBookmark(bookmarkId) {
+    const bookmark = bookmarkedRoutes.find(b => b.id === bookmarkId);
+    if (!bookmark) return;
+    
     if (confirm('Are you sure you want to delete "' + bookmark.name + '"?')) {
-        bookmarkedRoutes.splice(index, 1);
-        saveBookmarksToStorage();
+        SharedBookmarkStorage.deleteBookmark(bookmarkId);
+        bookmarkedRoutes = SharedBookmarkStorage.getBookmarks();
         displayBookmarks();
         showNotification('Bookmark deleted', 'info');
     }
@@ -253,37 +436,54 @@ function clearAllBookmarks() {
     }
     
     if (confirm('Are you sure you want to delete all bookmarks? This action cannot be undone.')) {
+        SharedBookmarkStorage.clearAllBookmarks();
         bookmarkedRoutes = [];
-        saveBookmarksToStorage();
         displayBookmarks();
         showNotification('All bookmarks cleared', 'info');
     }
 }
 
-function saveBookmarksToStorage() {
-    // Since localStorage isn't available, we'll keep them in memory for the session
-    console.log('Bookmarks saved:', bookmarkedRoutes);
+function loadBookmarks() {
+    // Load from shared storage
+    bookmarkedRoutes = SharedBookmarkStorage.getBookmarks();
+    console.log('Loaded bookmarks on main page:', bookmarkedRoutes);
+    displayBookmarks();
+    
+    // Listen for bookmark updates
+    window.addEventListener('bookmarksUpdated', (event) => {
+        console.log('Main page received bookmark update:', event.detail);
+        bookmarkedRoutes = event.detail;
+        displayBookmarks();
+    });
 }
 
-function loadBookmarks() {
-    // Placeholder for loading bookmarks from storage
-    console.log('Loading bookmarks...');
-    displayBookmarks();
+// Navigate to bookmark page
+function openBookmarkPage() {
+    window.location.href = 'bookmark-page.html';
 }
 
 // Utility functions
 function showCurrentTime() {
-    var now = new Date();
-    var timeString = now.toLocaleString();
+    const now = new Date();
+    const timeString = now.toLocaleString();
     showNotification('Current time: ' + timeString, 'info');
 }
 
 function scrollToSection(sectionId) {
-    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 // Notification system
 function showNotification(message, type = 'info') {
+    console.log('Showing notification:', message, type);
+    
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(n => n.remove());
+    
     const colors = {
         'success': '#4CAF50',
         'warning': '#FF9800',
@@ -292,6 +492,7 @@ function showNotification(message, type = 'info') {
     };
     
     const notification = document.createElement('div');
+    notification.className = 'notification';
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -306,42 +507,11 @@ function showNotification(message, type = 'info') {
         font-family: 'Inter', sans-serif;
         font-weight: 500;
         backdrop-filter: blur(10px);
+        max-width: 300px;
+        word-wrap: break-word;
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
 
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-// Form submission
-document.getElementById('bookmarkForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    saveBookmark();
-});
-
-// Close modal when clicking outside
-window.addEventListener('click', function(e) {
-    const modal = document.getElementById('bookmarkModal');
-    if (e.target === modal) {
-        closeBookmarkModal();
-    }
-});
-
-// Handle canvas responsiveness
-function resizeCanvas() {
-    const canvas = document.getElementById('canvas');
-    const container = canvas.parentElement;
-    const maxWidth = container.clientWidth - 40; // Account for padding
-    
-    if (canvas.width > maxWidth) {
-        const scale = maxWidth / canvas.width;
-        canvas.style.width = maxWidth + 'px';
-        canvas.style.height = (canvas.height * scale) + 'px';
-    }
-}
-
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('load', resizeCanvas);
+        notification.style.
