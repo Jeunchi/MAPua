@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>MAPúa Navigation System</title>
+    <link rel="shortcut icon" type="image/png" href="assets/MAPúa-logo.png">
+    <link rel="stylesheet" href="main-style.css">
+</head>
+<body>
+    <div class="background-decoration"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h1 class="title">MAPúa Navigation</h1>
+                <div class="nav-links">
+                    <a href="#bookmarks" onclick="scrollToSection('bookmark-section')">
+                        <i class="fas fa-bookmark"></i> Bookmarks
+                    </a>
+                    <a href="#" onclick="showCurrentTime()">
+                        <i class="fas fa-clock"></i> Time
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Description -->
+            <div class="description">
+                <p>
+                    Welcome to the MAPúa Navigation System. This integrated platform allows you to find the shortest path between locations, 
+                    view location images, and manage your bookmarked routes. Select your starting and destination points to get detailed 
+                    directions and visual guidance throughout the campus.
+                </p>
+            </div>
+
+            <!-- Campus Map Section -->
+            <div class="section" id="map-section">
+                <h3 class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    Campus Map & Pathfinding
+                </h3>
+                <div class="canvas-container">
+                    <canvas width="1445" height="719" id="canvas"></canvas>
+                </div>
+            </div>
+            
+            <!-- Route Planning Section -->
+            <div class="section" id="route-section">
+                <h3 class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    Route Planning
+                </h3>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <div class="location-icon from-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        From Location:
+                    </label>
+                    <select id="initial" class="control-input">
+                        <option value="">Select starting point</option>
+                        <option value="elevator">Elevator</option>
+                        <option value="fire-exit-elevator">Fire Exit Elevator</option>
+                        <option value="canteen">Canteen</option>
+                        <option value="Student lounge 1">Student Lounge 1</option>
+                        <option value="hallway">Hallway</option>
+                        <option value="clinic">Clinic</option>
+                        <option value="orientation room">Orientation Room</option>
+                        <option value="counsellor">Counsellor</option>
+                        <option value="multi-purpose">Multi-purpose</option>
+                        <option value="tech serve">Tech Serve</option>
+                        <option value="student council">Student Council</option>
+                        <option value="SOCIP">SOCIP</option>
+                        <option value="Registrar">Registrar</option>
+                        <option value="admission">Admission</option>
+                        <option value="treasury">Treasury</option>
+                        <option value="student lounge 2">Student Lounge 2</option>
+                        <option value="fire exit 2">Fire Exit 2</option>
+                        <option value="lobby area">Lobby Area</option>
+                        <option value="bookstore">Bookstore</option>
+                        <option value="1">Room 1</option>
+                        <option value="2">Room 2</option>
+                        <option value="3">Room 3</option>
+                        <option value="4">Room 4</option>
+                        <option value="5">Room 5</option>
+                        <option value="6">Room 6</option>
+                        <option value="7">Room 7</option>
+                        <option value="8">Room 8</option>
+                        <option value="9">Room 9</option>
+                        <option value="10">Room 10</option>
+                        <option value="11">Room 11</option>
+                        <option value="12">Room 12</option>
+                        <option value="13">Room 13</option>
+                        <option value="14">Room 14</option>
+                        <option value="15">Room 15</option>
+                        <option value="16">Room 16</option>
+                        <option value="17">Room 17</option>
+                        <option value="18">Room 18</option>
+                        <option value="19">Room 19</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <div class="location-icon to-icon">
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                        To Location:
+                    </label>
+                    <select id="final" class="control-input">
+                        <option value="">Select destination</option>
+                        <option value="elevator">Elevator</option>
+                        <option value="fire-exit-elevator">Fire Exit Elevator</option>
+                        <option value="canteen">Canteen</option>
+                        <option value="Student lounge 1">Student Lounge 1</option>
+                        <option value="hallway">Hallway</option>
+                        <option value="clinic">Clinic</option>
+                        <option value="orientation room">Orientation Room</option>
+                        <option value="counsellor">Counsellor</option>
+                        <option value="multi-purpose">Multi-purpose</option>
+                        <option value="tech serve">Tech Serve</option>
+                        <option value="student council">Student Council</option>
+                        <option value="SOCIP">SOCIP</option>
+                        <option value="Registrar">Registrar</option>
+                        <option value="admission">Admission</option>
+                        <option value="treasury">Treasury</option>
+                        <option value="student lounge 2">Student Lounge 2</option>
+                        <option value="fire exit 2">Fire Exit 2</option>
+                        <option value="lobby area">Lobby Area</option>
+                        <option value="bookstore">Bookstore</option>
+                        <option value="1">Room 1</option>
+                        <option value="2">Room 2</option>
+                        <option value="3">Room 3</option>
+                        <option value="4">Room 4</option>
+                        <option value="5">Room 5</option>
+                        <option value="6">Room 6</option>
+                        <option value="7">Room 7</option>
+                        <option value="8">Room 8</option>
+                        <option value="9">Room 9</option>
+                        <option value="10">Room 10</option>
+                        <option value="11">Room 11</option>
+                        <option value="12">Room 12</option>
+                        <option value="13">Room 13</option>
+                        <option value="14">Room 14</option>
+                        <option value="15">Room 15</option>
+                        <option value="16">Room 16</option>
+                        <option value="17">Room 17</option>
+                        <option value="18">Room 18</option>
+                        <option value="19">Room 19</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="findShortestPath()">
+                        <i class="fas fa-route"></i>
+                        <span>Find Route</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearPath()">
+                        <i class="fas fa-eraser"></i>
+                        <span>Clear Path</span>
+                    </button>
+                </div>
+            </div>
+
+
+
+            <!-- Bookmark Section -->
+            <div class="section" id="bookmark-section">
+                <h3 class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    Saved Routes
+                </h3>
+                
+                <div class="button-group">
+                    <button class="btn btn-success" onclick="bookmarkCurrentRoute()">
+                        <i class="fas fa-plus"></i>
+                        <span>Bookmark Current Route</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAllBookmarks()">
+                        <i class="fas fa-trash"></i>
+                        <span>Clear All</span>
+                    </button>
+                </div>
+                
+                <div class="bookmark-list" id="bookmarkList">
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>No bookmarked routes yet. Plan a route and bookmark it!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookmark Name Modal -->
+    <div id="bookmarkModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Save Route</h2>
+                <button class="close" onclick="closeBookmarkModal()">&times;</button>
+            </div>
+            <form id="bookmarkForm">
+                <div class="form-group">
+                    <label class="form-label">Route Name</label>
+                    <input type="text" class="form-input" id="routeName" placeholder="Enter a name for this route" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">From</label>
+                    <input type="text" class="form-input" id="routeFrom" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">To</label>
+                    <input type="text" class="form-input" id="routeTo" readonly>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        <span>Save Bookmark</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeBookmarkModal()">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include JavaScript files -->
+    <script src="main-script.js"></script>
+    <script src="scripts/map.js"></script>
+</body>
+</html>
