@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="bookmark-style.css">
+    <title>Bookmark Page</title>
+  </head>
+  <body>
+    <div class="background-decoration"></div>
+    
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-bookmark"></i>
+          </div>
+          <h1 class="title">Bookmarks</h1>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="bookmarks-grid" id="bookmarksGrid">
+          <!-- Bookmarks will be dynamically loaded here -->
+        </div>
+
+        <div class="controls-section">
+          <button class="add-button" onclick="openAddModal()">
+            <i class="fas fa-plus"></i>
+          </button>
+          
+          <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Bookmark Modal -->
+    <div id="addBookmarkModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Add New Bookmark</h2>
+          <button class="close" onclick="closeAddModal()">&times;</button>
+        </div>
+        <form id="bookmarkForm">
+          <div class="form-group">
+            <label class="form-label">From Location</label>
+            <input type="text" class="form-input" id="fromLocation" placeholder="Enter starting location" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">To Location</label>
+            <input type="text" class="form-input" id="toLocation" placeholder="Enter destination" required>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              <span>Save Bookmark</span>
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="closeAddModal()">
+              <i class="fas fa-times"></i>
+              <span>Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="bookmark-script.js"></script>
+  </body>
+</html>
