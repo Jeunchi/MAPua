@@ -31,22 +31,6 @@ A modern, interactive campus navigation web application designed for MAPúa Univ
 - Mobile-first responsive design
 - Dark mode compatible
 
-## 🏗️ **Project Structure**
-
-```
-mapua-navigation/
-├── index.html              # Main unified application file
-├── assets/
-│   ├── MAPúa-logo.png      # University logo
-│   └── design.css          # Additional styling (if needed)
-├── scripts/
-│   └── map.js              # Pathfinding algorithms and map logic
-├── image/
-│   ├── lobby.jpg           # Lobby area photograph
-│   ├── canteen.jpg         # Canteen area photograph
-│   └── image1.jpg          # Library area photograph
-└── README.md               # This documentation file
-```
 
 ## 🚀 **Getting Started**
 
