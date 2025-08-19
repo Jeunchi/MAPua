@@ -514,4 +514,68 @@ function showNotification(message, type = 'info') {
     document.body.appendChild(notification);
 
     setTimeout(() => {
-        notification.style.
+        notification.style.animation = 'slideOut 0.3s ease forwards';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('bookmarkModal');
+    if (e.target === modal) {
+        closeBookmarkModal();
+    }
+});
+
+// Handle canvas responsiveness
+function resizeCanvas() {
+    const canvas = document.getElementById('canvas');
+    if (!canvas) return;
+    
+    const container = canvas.parentElement;
+    if (!container) return;
+    
+    const maxWidth = container.clientWidth - 40; // Account for padding
+    
+    if (canvas.width > maxWidth) {
+        const scale = maxWidth / canvas.width;
+        canvas.style.width = maxWidth + 'px';
+        canvas.style.height = (canvas.height * scale) + 'px';
+    }
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+// Add CSS for animations if not already present
+if (!document.querySelector('#notification-styles')) {
+    const style = document.createElement('style');
+    style.id = 'notification-styles';
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}

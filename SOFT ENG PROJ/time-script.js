@@ -3,15 +3,73 @@ let currentAlarmId = null;
 let alarmSound = null;
 let checkInterval;
 
+// Cookie utility functions
+class CookieManager {
+  static setCookie(name, value, days = 30) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
+  }
+  
+  static getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) {
+        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+    }
+    return null;
+  }
+  
+  static deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+  }
+}
+
+// Alarm Storage System using Cookies
+class AlarmStorage {
+  static getAlarms() {
+    const saved = CookieManager.getCookie('mapua_alarms');
+    if (saved) {
+      try {
+        const alarms = JSON.parse(saved);
+        console.log('Loaded alarms from cookie:', alarms);
+        return alarms;
+      } catch (e) {
+        console.error('Error parsing alarms from cookie:', e);
+        return [];
+      }
+    }
+    return [];
+  }
+  
+  static saveAlarms(alarms) {
+    console.log('Saving alarms to cookie:', alarms);
+    CookieManager.setCookie('mapua_alarms', JSON.stringify(alarms), 365); // Save for 1 year
+  }
+  
+  static clearAllAlarms() {
+    this.saveAlarms([]);
+  }
+}
+
 // Initialize the app
 function init() {
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
   startAlarmCheck();
   
-  // Create initial alarm for demo
-  addAlarm(9, 30, 'AM');
-  addAlarm(12, 45, 'PM');
+  // Load saved alarms from cookies
+  loadAlarms();
+  
+  // If no alarms exist, create initial demo alarms
+  if (alarms.length === 0) {
+    addAlarm(9, 30, 'AM');
+    addAlarm(12, 45, 'PM');
+  }
 }
 
 // Update current time display
@@ -38,12 +96,14 @@ function addAlarm(hour = 12, minute = 0, ampm = 'AM') {
   };
   
   alarms.push(alarm);
+  saveAlarms();
   renderAlarms();
 }
 
 // Remove alarm
 function removeAlarm(id) {
   alarms = alarms.filter(alarm => alarm.id !== id);
+  saveAlarms();
   renderAlarms();
 }
 
@@ -52,6 +112,7 @@ function toggleAlarm(id) {
   const alarm = alarms.find(a => a.id === id);
   if (alarm) {
     alarm.active = !alarm.active;
+    saveAlarms();
     renderAlarms();
   }
 }
@@ -61,6 +122,7 @@ function updateAlarmTime(id, field, value) {
   const alarm = alarms.find(a => a.id === id);
   if (alarm) {
     alarm[field] = value;
+    saveAlarms();
   }
 }
 
@@ -254,6 +316,7 @@ function stopAlarm() {
   }
   
   document.getElementById('alarmModal').classList.remove('active');
+  saveAlarms();
   renderAlarms();
 }
 
@@ -276,6 +339,23 @@ function snoozeAlarm() {
   }
   
   stopAlarm();
+}
+
+// Load alarms from storage
+function loadAlarms() {
+  alarms = AlarmStorage.getAlarms();
+  console.log('Loaded alarms:', alarms);
+  renderAlarms();
+}
+
+// Save alarms to storage
+function saveAlarms() {
+  AlarmStorage.saveAlarms(alarms);
+}
+
+// Go back to main page function
+function goBack() {
+  window.location.href = 'main-page.html';
 }
 
 // Initialize the app when page loads

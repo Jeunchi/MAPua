@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentPath = null;
   let isAnimating = false;
   let routePoints = [];
+  let backgroundImage = null; // Store background image to avoid redrawing
+  let backgroundLoaded = false;
 
   // Create the enhanced SVG background
   const svgBackground = `
@@ -145,18 +147,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Convert SVG to image for canvas background
   function loadSVGBackground() {
-    const blob = new Blob([svgBackground], {type: 'image/svg+xml'});
-    const url = URL.createObjectURL(blob);
-    const img = new Image();
-    
-    img.onload = function() {
-      canvas.width = 1445;
-      canvas.height = 719;
-      ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-    };
-    
-    img.src = url;
+    return new Promise((resolve) => {
+      if (backgroundLoaded && backgroundImage) {
+        canvas.width = 1445;
+        canvas.height = 719;
+        ctx.drawImage(backgroundImage, 0, 0);
+        resolve();
+        return;
+      }
+
+      const blob = new Blob([svgBackground], {type: 'image/svg+xml'});
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      
+      img.onload = function() {
+        backgroundImage = img;
+        backgroundLoaded = true;
+        canvas.width = 1445;
+        canvas.height = 719;
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+        resolve();
+      };
+      
+      img.src = url;
+    });
   }
 
   // Enhanced drawing functions for route visualization
@@ -170,14 +185,14 @@ document.addEventListener("DOMContentLoaded", function() {
     ctx.lineJoin = "round";
     
     // Draw shadow path first
-    ctx.globalAlpha = 0.2;
+    ctx.globalAlpha = 0.3;
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = 12;
     ctx.setLineDash([]);
     drawPathSegments(path, 1);
     
     // Draw base path
-    ctx.globalAlpha = 0.4;
+    ctx.globalAlpha = 0.6;
     ctx.strokeStyle = "#B30000";
     ctx.lineWidth = 10;
     drawPathSegments(path, 1);
@@ -390,51 +405,53 @@ document.addEventListener("DOMContentLoaded", function() {
     return smoothedPath;
   }
 
-  // Animation loop
+  // Fixed animation loop - no more blinking
   function animateRoute() {
     if (!isAnimating || !currentPath) return;
     
-    // Clear and redraw background
-    loadSVGBackground();
+    // Clear canvas and draw background (only once per frame)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    setTimeout(() => {
-      // Draw the enhanced path
-      drawGradientPath(currentPath, pathProgress, true);
-      
-      // Draw markers with pulsating effect
-      const time = Date.now();
-      const startPoint = currentPath[0];
-      const endPoint = currentPath[currentPath.length - 1];
-      
-      // Start marker (green with "START" label)
-      drawPulsatingMarker(startPoint.x, startPoint.y, "#4CAF50", "START", time);
-      
-      // End marker (blue with "END" label)
-      drawPulsatingMarker(endPoint.x, endPoint.y, "#2196F3", "END", time + 1000);
-      
-      // Show progress indicator
-      if (pathProgress < 1) {
-        const currentPos = getPositionOnPath(currentPath, pathProgress);
-        if (currentPos) {
-          drawPulsatingMarker(currentPos.x, currentPos.y, "#FFD700", "", time + 500);
-        }
+    if (backgroundImage) {
+      ctx.drawImage(backgroundImage, 0, 0);
+    }
+    
+    // Draw the enhanced path
+    drawGradientPath(currentPath, pathProgress, true);
+    
+    // Draw markers with pulsating effect
+    const time = Date.now();
+    const startPoint = currentPath[0];
+    const endPoint = currentPath[currentPath.length - 1];
+    
+    // Start marker (green with "START" label)
+    drawPulsatingMarker(startPoint.x, startPoint.y, "#4CAF50", "START", time);
+    
+    // End marker (blue with "END" label)
+    drawPulsatingMarker(endPoint.x, endPoint.y, "#2196F3", "END", time + 1000);
+    
+    // Show progress indicator
+    if (pathProgress < 1) {
+      const currentPos = getPositionOnPath(currentPath, pathProgress);
+      if (currentPos) {
+        drawPulsatingMarker(currentPos.x, currentPos.y, "#FFD700", "", time + 500);
       }
-      
-      // Update progress
-      pathProgress += 0.006; // Slower animation for better effect
-      
-      if (pathProgress >= 1) {
-        pathProgress = 1;
-        // Continue animation for 3 seconds to show pulsating markers
-        setTimeout(() => {
-          isAnimating = false;
-        }, 3000);
-      }
-      
-      if (isAnimating) {
-        animationId = requestAnimationFrame(animateRoute);
-      }
-    }, 50); // Small delay to ensure background is drawn
+    }
+    
+    // Update progress
+    pathProgress += 0.008; // Slightly faster for smoother animation
+    
+    if (pathProgress >= 1) {
+      pathProgress = 1;
+      // Continue animation for 3 seconds to show pulsating markers
+      setTimeout(() => {
+        isAnimating = false;
+      }, 3000);
+    }
+    
+    if (isAnimating) {
+      animationId = requestAnimationFrame(animateRoute);
+    }
   }
 
   function startRouteAnimation(path) {
@@ -445,7 +462,11 @@ document.addEventListener("DOMContentLoaded", function() {
     currentPath = smoothPath(path);
     pathProgress = 0;
     isAnimating = true;
-    animateRoute();
+    
+    // Ensure background is loaded before starting animation
+    loadSVGBackground().then(() => {
+      animateRoute();
+    });
   }
 
   // Enhanced Graph class with Dijkstra's algorithm
